@@ -5,10 +5,26 @@ const validateRegister = require('../validation/register')
 const validateLogin = require('../validation/login')
 const key = process.env.SECRET_KEY;
 
+
+const getUsers = async (req, res) => {
+    await userModel.find({})
+        .then((users, error) => {
+            if (error) {
+                return res.status(400).json({ success: false, error })
+            }
+            if (users.length == 0) {
+                return res.json({ success: false, massage: "no Users" })
+            }
+            res.status(200).json({ success: true, users })
+        })
+}
+
+
+
 const register = async (req, res) => {
     const { isValid, errors } = validateRegister(req.body.user);
     if (!isValid) return res.status(400).json(errors)
-    await userModel.findOne({ email: req.body.user.email }, (err, user) => {
+     userModel.findOne({ email: req.body.user.email }, (err, user) => {
         if (err) return res.status(400).json(err)
         if (user) return res.json({ massage: "email already taken" })
         bcrypt.genSalt()
@@ -55,5 +71,6 @@ const login = async (req, res) => {
 }
 module.exports = {
     register,
-    login
+    login,
+    getUsers
 }

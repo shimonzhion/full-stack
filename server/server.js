@@ -1,11 +1,12 @@
 
-const dotenv = require('dotenv');
-dotenv.config();
+const dotenv = require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
 require('./DB')
-const bookRouter = require('./routes/book-router');
+const orderRouter = require('./routes/order-router');
 const usersRouter = require('./routes/user-router')
+const saleRouter = require('./routes/sale-router')
+const productRouter = require('./routes/product-router')
 const path = require('path');
 const passport = require('passport');
 require('./config/passport')(passport);
@@ -18,8 +19,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 
 
-app.use('/books',passport.authenticate('jwt', { session: false }), bookRouter);
+app.use('/orders', orderRouter);
 app.use('/users',usersRouter);
+app.use('/sales',saleRouter);
+app.use('/products',productRouter);
 
 app.get('/',(req,res)=>{
     res.send('success')

@@ -1,12 +1,15 @@
 import { BrowserRouter } from 'react-router-dom';
-import './App.css';
+import Template from './components/features/Template/Template.tsx';
+
 
 function App() {
   return (
     <BrowserRouter>
+  
     <div className="App">
-    <h1>hello</h1>
-    </div>
+ <Template/>
+
+    </div> 
     </BrowserRouter>
   );
 }
